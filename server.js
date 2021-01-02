@@ -7,13 +7,20 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static("public"));
 app.use(express.json());
 const connectDB = require("./config/db");
+const cors = require("cors");
 
 connectDB();
+
+//cors
+const corsOptions = {
+    origin: process.env.ALLOWED_CLIENTS.split(',')
+}
+
+app.use(cors(corsOptions));
 
 //Template engine
 app.set("views", path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
-
 
 //Routes
 app.use('/', require('./routes/files'));
